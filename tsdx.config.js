@@ -6,8 +6,8 @@ module.exports = {
   rollup(config, options) {
     config.plugins = [
       postcss({
-        inject: true, //  true
-        extract: !!options.writeMeta,
+        inject: false, //  true
+        extract: true,
         plugins: [
           url({
             url: 'inline', // enable inline assets using base64 encoding
