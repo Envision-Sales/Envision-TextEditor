@@ -7,7 +7,6 @@
  */
 
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { AutoScrollPlugin } from '@lexical/react/LexicalAutoScrollPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
@@ -15,6 +14,7 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useRef } from 'react';
 
@@ -37,6 +37,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import EditorContext from './context/EditorContext';
 import { LexicalEditor } from 'lexical';
+import i18next from 'i18next';
 
 interface IEditorProps {
   children?: ReactNode;
@@ -47,6 +48,7 @@ interface IEditorProps {
   placeholder?: string;
   listMaxIndent?: number;
   isEditable?: boolean;
+  locale?: 'en' | 'fr' | null;
   onChange?: (editorState: string, editorInstance?: LexicalEditor) => void;
 }
 
@@ -59,6 +61,7 @@ const Editor = ({
   listMaxIndent = 7,
   placeholder = '',
   isEditable = true,
+  locale = null,
   onChange,
 }: IEditorProps) => {
   const [editor] = useLexicalComposerContext();
@@ -70,10 +73,11 @@ const Editor = ({
     settings: { isRichText },
   } = useSettings();
   const placeholderComponent = <Placeholder>{placeholder}</Placeholder>;
-  const scrollRef = useRef(null);
 
   useEffect(() => {
     editor.setEditable(isEditable);
+
+    if (locale) i18next.changeLanguage(locale);
   }, []);
 
   return (
@@ -81,7 +85,7 @@ const Editor = ({
       value={{ initialEditor: editor, activeEditor, setActiveEditor }}
     >
       {children}
-      <div className={`editor-container`} ref={scrollRef}>
+      <div className={`editor-container`}>
         <AutoFocusPlugin />
         <ClearEditorPlugin />
         {hashtagsEnabled && <HashtagPlugin />}
@@ -89,12 +93,12 @@ const Editor = ({
         <KeywordsPlugin />
         <SpeechToTextPlugin />
         {autoLinkEnabled && <AutoLinkPlugin />}
-        <AutoScrollPlugin scrollRef={scrollRef} />
 
         <>
           <RichTextPlugin
             contentEditable={<ContentEditable />}
             placeholder={placeholderComponent}
+            ErrorBoundary={LexicalErrorBoundary}
           />
           <OnChangePlugin
             onChange={(editorState) => {

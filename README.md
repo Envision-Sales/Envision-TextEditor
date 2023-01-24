@@ -81,6 +81,15 @@ Coming soon... -->
 
 ## API
 
+`<EditorComposer />`
+
+| Property           | Type              |          | description                                                                        |
+| ------------------ | ----------------- | -------- | ---------------------------------------------------------------------------------- |
+| children           | `ReactNode`       | required | Nested child component which is the Editor itself                                  |
+| initialEditorState | `InitialEditorStateType` | optional | The initial state of the editor                                             |
+
+<br />
+
 `<Editor />`
 
 | Property           | Type              |          | description                                                                        |
@@ -92,9 +101,14 @@ Coming soon... -->
 | actionsEnabled     | `boolean`         | optional | Enables the actions toolbar, default is `false`                                    |
 | placeholder        | `string`          | optional | The default content of the editor when it is first loaded                          |
 | listMaxIndent      | `number`          | optional | The maximum indent capacity of any listed element, the default is `7`              |
-| isReadOnly         | `boolean`         | optional | Enables read-only mode for the editor, default is `false`                          |
+| isEditable         | `boolean`         | optional | Enables read-only mode for the editor, default is `false`                          |
 | initialEditorState | `string`          | optional | JSON string to initialize the initial content of the editor.                       |
 | onChange           | `(editorState: string, editorInstance?: LexicalEditor) => void` | optional | Accessing the current editor state and the active editor instance                                                 |
+| locale  | `en | fr | null` | optional | Enables localization in the language of your choice, default is `en`. Available languages are `en` and `fr` |
+
+## Automatic browser language detection Support
+
+Verbum supports automatic browser language detection by default if locale not provided. If the browser language is set to `fr`, the editor will be automatically localized in French. If the browser language is set to `en`, the editor will be automatically localized in English. If the browser language is set to any other language, the editor will be automatically localized in English.
 
 <br />
 
@@ -147,13 +161,13 @@ $ npm run storybook
 ## Future plans
 
 - Test coverage
-- Programmatic access to the editor input as JSON
-- Localization
+- ~~Programmatic access to the editor input as JSON~~
+- ~~Localization~~
 - Ready templates with different options (MUI, Bootstrap, etc...)
 - Dark/Light modes
 - Custom styling flexibility
-- Disassembling all of the toolbar to enable using them as nested components, increasing the flexibility
-- Enabling adjusting editor settings such read-only mode and etc. programmatically
+- ~~Disassembling all of the toolbar to enable using them as nested components, increasing the flexibility~~
+- ~~Enabling adjusting editor settings such read-only mode and etc. programmatically~~
 
 ## License
 

@@ -39,6 +39,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { createDOMRange, createRectsFromDOMRange } from '@lexical/selection';
 import { $isRootTextContentEmpty, $rootTextContent } from '@lexical/text';
 import { mergeRegister, registerNestedElementResolver } from '@lexical/utils';
@@ -65,6 +66,8 @@ import Placeholder from '../ui/Placeholder';
 import type { Doc } from 'yjs';
 import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext';
 import { WebsocketProvider } from 'y-websocket';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 export const INSERT_INLINE_COMMAND: LexicalCommand<void> = createCommand();
 
@@ -184,6 +187,7 @@ function PlainTextEditor({
         <PlainTextPlugin
           contentEditable={<ContentEditable className={className} />}
           placeholder={<Placeholder>{placeholder}</Placeholder>}
+          ErrorBoundary={LexicalErrorBoundary}
         />
         <OnChangePlugin onChange={onChange} />
         <HistoryPlugin />
@@ -215,6 +219,7 @@ function CommentInputBox({
   editor,
   cancelAddComment,
   submitAddComment,
+  t,
 }: {
   cancelAddComment: () => void;
   editor: LexicalEditor;
@@ -222,6 +227,7 @@ function CommentInputBox({
     commentOrThread: Comment | Thread,
     isInlineComment: boolean
   ) => void;
+  t: TFunction;
 }) {
   const [content, setContent] = useState('');
   const [canSubmit, setCanSubmit] = useState(false);
@@ -343,14 +349,14 @@ function CommentInputBox({
           onClick={cancelAddComment}
           className="CommentPlugin_CommentInputBox_Button"
         >
-          Cancel
+          {t('action:Cancel')}
         </Button>
         <Button
           onClick={submitComment}
           disabled={!canSubmit}
           className="CommentPlugin_CommentInputBox_Button primary"
         >
-          Comment
+          {t('action:Comment')}
         </Button>
       </div>
     </div>
@@ -416,6 +422,7 @@ function ShowDeleteCommentOrThreadDialog({
   deleteCommentOrThread,
   onClose,
   thread = undefined,
+  t,
 }: {
   commentOrThread: Comment | Thread;
 
@@ -426,10 +433,13 @@ function ShowDeleteCommentOrThreadDialog({
   ) => void;
   onClose: () => void;
   thread?: Thread;
+  t: TFunction;
 }): JSX.Element {
   return (
     <>
-      Are you sure you want to delete this {commentOrThread.type}?
+      {`${t('toolbar:commentPlugin.Delete_Comment_Description')} ${
+        commentOrThread.type
+      }?`}
       <div className="Modal__content">
         <Button
           onClick={() => {
@@ -437,14 +447,14 @@ function ShowDeleteCommentOrThreadDialog({
             onClose();
           }}
         >
-          Delete
+          {t('action:Delete')}
         </Button>{' '}
         <Button
           onClick={() => {
             onClose();
           }}
         >
-          Cancel
+          {t('action:Cancel')}
         </Button>
       </div>
     </>
@@ -456,6 +466,7 @@ function CommentsPanelListComment({
   deleteComment,
   thread,
   rtf,
+  t,
 }: {
   comment: Comment;
   deleteComment: (
@@ -463,8 +474,9 @@ function CommentsPanelListComment({
     // eslint-disable-next-line no-shadow
     thread?: Thread
   ) => void;
-  rtf: null; //FIXME: Intl.RelativeTimeFormat gives build error;
   thread?: Thread;
+  rtf: null; //FIXME: Intl.RelativeTimeFormat gives build error;
+  t: TFunction;
 }): JSX.Element {
   const seconds = Math.round((comment.timeStamp - performance.now()) / 1000);
   const minutes = Math.round(seconds / 60);
@@ -491,14 +503,18 @@ function CommentsPanelListComment({
         <>
           <Button
             onClick={() => {
-              showModal('Delete Comment', (onClose) => (
-                <ShowDeleteCommentOrThreadDialog
-                  commentOrThread={comment}
-                  deleteCommentOrThread={deleteComment}
-                  thread={thread}
-                  onClose={onClose}
-                />
-              ));
+              showModal(
+                t('toolbar:commentPlugin.Delete_Comment'),
+                (onClose) => (
+                  <ShowDeleteCommentOrThreadDialog
+                    commentOrThread={comment}
+                    deleteCommentOrThread={deleteComment}
+                    thread={thread}
+                    onClose={onClose}
+                    t={t}
+                  />
+                )
+              );
             }}
             className="CommentPlugin_CommentsPanel_List_DeleteButton"
           >
@@ -516,8 +532,9 @@ function CommentsPanelList({
   comments,
   deleteCommentOrThread,
   listRef,
-  submitAddComment,
   markNodeMap,
+  submitAddComment,
+  t,
 }: {
   activeIDs: Array<string>;
   comments: Comments;
@@ -532,6 +549,7 @@ function CommentsPanelList({
     isInlineComment: boolean,
     thread?: Thread
   ) => void;
+  t: TFunction;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [counter, setCounter] = useState(0);
@@ -609,13 +627,17 @@ function CommentsPanelList({
                 {/* INTRODUCE DELETE THREAD HERE*/}
                 <Button
                   onClick={() => {
-                    showModal('Delete Thread', (onClose) => (
-                      <ShowDeleteCommentOrThreadDialog
-                        commentOrThread={commentOrThread}
-                        deleteCommentOrThread={deleteCommentOrThread}
-                        onClose={onClose}
-                      />
-                    ));
+                    showModal(
+                      t('toolbar:commentPlugin.Delete_Thread'),
+                      (onClose) => (
+                        <ShowDeleteCommentOrThreadDialog
+                          commentOrThread={commentOrThread}
+                          deleteCommentOrThread={deleteCommentOrThread}
+                          onClose={onClose}
+                          t={t}
+                        />
+                      )
+                    );
                   }}
                   className="CommentPlugin_CommentsPanel_List_DeleteButton"
                 >
@@ -631,6 +653,7 @@ function CommentsPanelList({
                     deleteComment={deleteCommentOrThread}
                     thread={commentOrThread}
                     rtf={rtf}
+                    t={t}
                   />
                 ))}
               </ul>
@@ -638,7 +661,7 @@ function CommentsPanelList({
                 <CommentsComposer
                   submitAddComment={submitAddComment}
                   thread={commentOrThread}
-                  placeholder="Reply to comment..."
+                  placeholder={t('toolbar:commentPlugin.Reply_to_comment')}
                 />
               </div>
             </li>
@@ -650,6 +673,7 @@ function CommentsPanelList({
             comment={commentOrThread}
             deleteComment={deleteCommentOrThread}
             rtf={rtf}
+            t={t}
           />
         );
       })}
@@ -661,8 +685,9 @@ function CommentsPanel({
   activeIDs,
   deleteCommentOrThread,
   comments,
-  submitAddComment,
   markNodeMap,
+  submitAddComment,
+  t,
 }: {
   activeIDs: Array<string>;
   comments: Comments;
@@ -676,15 +701,20 @@ function CommentsPanel({
     isInlineComment: boolean,
     thread?: Thread
   ) => void;
+  t: TFunction;
 }): JSX.Element {
   const listRef = useRef<HTMLUListElement>(null);
   const isEmpty = comments.length === 0;
 
   return (
     <div className="CommentPlugin_CommentsPanel">
-      <h2 className="CommentPlugin_CommentsPanel_Heading">Comments</h2>
+      <h2 className="CommentPlugin_CommentsPanel_Heading">
+        {t('toolbar:commentPlugin.Comments')}
+      </h2>
       {isEmpty ? (
-        <div className="CommentPlugin_CommentsPanel_Empty">No Comments</div>
+        <div className="CommentPlugin_CommentsPanel_Empty">
+          {t('toolbar:commentPlugin.No_Comments')}
+        </div>
       ) : (
         <CommentsPanelList
           activeIDs={activeIDs}
@@ -693,6 +723,7 @@ function CommentsPanel({
           listRef={listRef}
           submitAddComment={submitAddComment}
           markNodeMap={markNodeMap}
+          t={t}
         />
       )}
     </div>
@@ -725,6 +756,7 @@ export default function CommentPlugin({
   const [showCommentInput, setShowCommentInput] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const { yjsDocMap } = collabContext;
+  const { t } = useTranslation(['toolbar']);
 
   useEffect(() => {
     if (providerFactory) {
@@ -956,6 +988,7 @@ export default function CommentPlugin({
             editor={editor}
             cancelAddComment={cancelAddComment}
             submitAddComment={submitAddComment}
+            t={t}
           />,
           document.body
         )}
@@ -976,7 +1009,11 @@ export default function CommentPlugin({
             showComments ? 'active' : ''
           }`}
           onClick={() => setShowComments(!showComments)}
-          title={showComments ? 'Hide Comments' : 'Show Comments'}
+          title={
+            showComments
+              ? t('toolbar:commentPlugin.Hide_Comments')
+              : t('toolbar:commentPlugin.Show_Comments')
+          }
         >
           <i className="comments" />
         </Button>,
@@ -990,6 +1027,7 @@ export default function CommentPlugin({
             deleteCommentOrThread={deleteCommentOrThread}
             activeIDs={activeIDs}
             markNodeMap={markNodeMap}
+            t={t}
           />,
           document.body
         )}
