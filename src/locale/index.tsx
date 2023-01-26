@@ -110,17 +110,19 @@ export const languageDetector = {
   cacheUserLanguage: () => {},
 };
 
-export const i18n = i18next
-  .use(initReactI18next)
-  .use(languageDetector as i18next.Module)
-  .init({
-    ns: ['toolbar', 'action'],
-    resources,
-    fallbackLng: 'en',
-    debug: true,
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+export const i18n = () => {
+  return i18next
+      .use(initReactI18next)
+      .use(languageDetector as i18next.Module)
+      .init({
+        ns: ['toolbar', 'action'],
+        resources,
+        fallbackLng: 'en',
+        debug: true,
+        interpolation: {
+          escapeValue: false,
+        },
+      });
+}
 
 export default i18n;
