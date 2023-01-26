@@ -6,12 +6,14 @@ import React from 'react';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 import './EditorComposer.css';
-import './locale';
+import i18n from './locale';
 
 interface IEditorComposer {
   children: React.ReactElement;
   initialEditorState?: InitialEditorStateType;
 }
+
+i18n();
 
 const EditorComposer = ({ children, initialEditorState }: IEditorComposer) => {
   const initialConfig = {
