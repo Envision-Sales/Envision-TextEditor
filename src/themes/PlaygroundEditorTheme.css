@@ -14,17 +14,14 @@
   text-align: right;
 }
 .PlaygroundEditorTheme__paragraph {
-  margin: 0;
-  margin-bottom: 8px;
+  margin: 0 0 8px;
   position: relative;
 }
 .PlaygroundEditorTheme__paragraph:last-child {
   margin-bottom: 0;
 }
 .PlaygroundEditorTheme__quote {
-  margin: 0;
-  margin-left: 20px;
-  margin-bottom: 10px;
+  margin: 0 0 10px 20px;
   font-size: 15px;
   color: rgb(101, 103, 107);
   border-left-color: rgb(206, 208, 212);
@@ -138,9 +135,7 @@
   padding: 8px 8px 8px 52px;
   line-height: 1.53;
   font-size: 13px;
-  margin: 0;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 8px 0;
   tab-size: 2;
   /* white-space: pre; */
   overflow-x: auto;
@@ -194,37 +189,51 @@
 }
 .PlaygroundEditorTheme__ol1 {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
+  margin: 0 0 0 16px;
+  list-style: auto;
+}
+.PlaygroundEditorTheme__ol1 li {
+  padding: 0;
 }
 .PlaygroundEditorTheme__ol2 {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
-  list-style-type: upper-alpha;
+  margin: 0 0 0 16px;
+  list-style: upper-alpha inside;
+}
+.PlaygroundEditorTheme__ol2 li {
+  padding: 0;
 }
 .PlaygroundEditorTheme__ol3 {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
-  list-style-type: lower-alpha;
+  margin: 0 0 0 16px;
+  list-style: lower-alpha inside;
+}
+.PlaygroundEditorTheme__ol3 li {
+  padding: 0;
 }
 .PlaygroundEditorTheme__ol4 {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
-  list-style-type: upper-roman;
+  margin: 0 0 0 16px;
+  list-style: upper-roman inside;
+}
+.PlaygroundEditorTheme__ol4 li {
+  padding: 0;
 }
 .PlaygroundEditorTheme__ol5 {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
-  list-style-type: lower-roman;
+  margin: 0 0 0 16px;
+  list-style: lower-roman inside;
+}
+.PlaygroundEditorTheme__ol5 li {
+  padding: 0;
 }
 .PlaygroundEditorTheme__ul {
   padding: 0;
-  margin: 0;
-  margin-left: 16px;
+  margin: 0 0 0 16px;
+  list-style: disc inside;
+}
+.PlaygroundEditorTheme__ul li {
+  padding: 0;
 }
 .PlaygroundEditorTheme__listItem {
   margin: 8px 32px;
@@ -321,4 +330,12 @@
 .PlaygroundEditorTheme__markOverlap.selected {
   background: rgba(255, 212, 0, 0.7);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
+}
+
+.PlaygroundEditorTheme__embedBlock {
+  user-select: none;
+}
+
+.PlaygroundEditorTheme__embedBlockFocus {
+  outline: 2px solid rgb(60, 132, 244);
 }

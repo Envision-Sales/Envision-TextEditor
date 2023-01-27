@@ -15,6 +15,7 @@ interface IToolbarContext {
   canRedo: boolean;
   fontFamily: string;
   fontSize: string;
+  lineHeight: string;
   fontColor: string;
   bgColor: string;
   blockType: string;

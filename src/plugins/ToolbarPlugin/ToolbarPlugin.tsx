@@ -62,6 +62,7 @@ const CODE_LANGUAGE_MAP = {
 interface IToolbarProps {
   children?: React.ReactElement | React.ReactElement[];
   defaultFontSize?: string /** The default selected font size in the toolbar */;
+  defaultLineHeight?: string /** The default selected line height in the toolbar */;
   defaultFontColor?: string /** The default selected font color in the toolbar */;
   defaultBgColor?: string /** The default selected background color in the toolbar */;
   defaultFontFamily?: string /** The default selected font family in the toolbar */;
@@ -70,6 +71,7 @@ interface IToolbarProps {
 const ToolbarPlugin = ({
   children,
   defaultFontSize = '15px',
+  defaultLineHeight = '1',
   defaultFontColor = '#000',
   defaultBgColor = '#fff',
   defaultFontFamily = 'Arial',
@@ -82,6 +84,7 @@ const ToolbarPlugin = ({
   const [blockType, setBlockType] = useState('paragraph');
   const [selectedElementKey, setSelectedElementKey] = useState(null);
   const [fontSize, setFontSize] = useState<string>(defaultFontSize);
+  const [lineHeight, setLineHeight] = useState<string>(defaultLineHeight);
   const [fontColor, setFontColor] = useState<string>(defaultFontColor);
   const [bgColor, setBgColor] = useState<string>(defaultBgColor);
   const [fontFamily, setFontFamily] = useState<string>(defaultFontFamily);
@@ -161,6 +164,13 @@ const ToolbarPlugin = ({
           defaultFontSize
         )
       );
+      setLineHeight(
+        $getSelectionStyleValueForProperty(
+            selection,
+            'line-height',
+            defaultLineHeight
+        )
+      )
       setFontColor(
         $getSelectionStyleValueForProperty(selection, 'color', defaultFontColor)
       );
@@ -248,6 +258,7 @@ const ToolbarPlugin = ({
         canRedo,
         fontFamily,
         fontSize,
+        lineHeight,
         fontColor,
         bgColor,
         isBold,

@@ -7,7 +7,7 @@
  */
 
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+// import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
@@ -109,7 +109,7 @@ const Editor = ({
           <MarkdownShortcutPlugin />
           <CodeHighlightPlugin />
           <ListPlugin />
-          <CheckListPlugin />
+          {/*<CheckListPlugin />*/}
           <ListMaxIndentLevelPlugin maxDepth={listMaxIndent} />
           <LinkPlugin />
           <ClickableLinkPlugin />
