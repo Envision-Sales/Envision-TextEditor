@@ -11,7 +11,7 @@
 .editor-shell {
   margin: 20px auto;
   border-radius: 2px;
-  max-width: 1000px;
+  max-width: 1100px;
   color: #000;
   position: relative;
   line-height: 20px;
@@ -1185,7 +1185,7 @@ button.action-button:disabled {
   display: flex;
   background: none;
   border-radius: 10px;
-  padding: 8px;
+  padding: 8px 24px 8px 8px;
   vertical-align: middle;
   -webkit-appearance: none;
   -moz-appearance: none;

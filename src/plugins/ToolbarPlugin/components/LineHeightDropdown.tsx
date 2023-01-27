@@ -28,7 +28,7 @@ const LineHeightDropdown = ({
   return (
     <>
       <Select
-        className="toolbar-item font-size"
+        className="toolbar-item line-height"
         onChange={onLineHeightSelect}
         options={lineHeightOptions}
         value={lineHeight}
