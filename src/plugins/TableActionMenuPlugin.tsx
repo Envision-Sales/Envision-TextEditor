@@ -415,7 +415,7 @@ function TableActionMenu({
           {(tableCellNode.__headerState & TableCellHeaderStates.COLUMN) ===
             TableCellHeaderStates.COLUMN
             ? t('action:Remove')
-            : t('action:Add ')}{' '}
+            : t('action:Add')}{' '}
           {t('toolbar:tableActionMenuPlugin.column_header')}
         </span>
       </button>

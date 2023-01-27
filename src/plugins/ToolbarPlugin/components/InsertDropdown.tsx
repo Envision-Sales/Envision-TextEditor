@@ -38,11 +38,13 @@ const parseYouTubeVideoID = (url: string) => {
 function InsertImageDialog({
   activeEditor,
   onClose,
+  mode
 }: {
   activeEditor: LexicalEditor;
   onClose: () => void;
+  mode: null | 'url' | 'file';
 }): JSX.Element {
-  const [mode, setMode] = useState<null | 'url' | 'file'>(null);
+  const [mode, setMode] = useState<null | 'url' | 'file'>(mode);
 
   const onClick = (payload: InsertImagePayload) => {
     activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
@@ -336,6 +338,7 @@ export interface IInsertDropdownProps {
   enableEquations?: boolean;
   enableHorizontalRule?: boolean;
   enableStickyNote?: boolean;
+  imageMode?: null | 'url' | 'file'
 }
 
 const InsertDropdown: React.FC<IInsertDropdownProps> = ({
@@ -347,6 +350,7 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
   enableEquations = false,
   enableHorizontalRule = false,
   enableStickyNote = false,
+  imageMode = null
 }: IInsertDropdownProps) => {
   const { initialEditor, activeEditor } = useContext(EditorContext);
   const [modal, showModal] = useModal();
@@ -393,6 +397,7 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
             onClick={() => {
               showModal('Insert Image', (onClose) => (
                 <InsertImageDialog
+                  mode={imageMode}
                   activeEditor={activeEditor}
                   onClose={onClose}
                 />
