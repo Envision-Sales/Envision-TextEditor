@@ -154,6 +154,27 @@ const BlockFormatDropdown = () => {
         </span>
         {blockType === 'h3' && <span className="active" />}
       </button>
+      <button className="item" onClick={() => formatHeading('h4')} type="button">
+        <span className="icon h4" />
+        <span className="text">
+          {t('toolbar:blockFormatDropdown.Heading_4')}
+        </span>
+        {blockType === 'h4' && <span className="active" />}
+      </button>
+      <button className="item" onClick={() => formatHeading('h5')} type="button">
+        <span className="icon h5" />
+        <span className="text">
+          {t('toolbar:blockFormatDropdown.Heading_5')}
+        </span>
+        {blockType === 'h5' && <span className="active" />}
+      </button>
+      <button className="item" onClick={() => formatHeading('h6')} type="button">
+        <span className="icon h6" />
+        <span className="text">
+          {t('toolbar:blockFormatDropdown.Heading_6')}
+        </span>
+        {blockType === 'h6' && <span className="active" />}
+      </button>
       <button className="item" onClick={formatBulletList} type="button">
         <span className="icon bullet-list" />
         <span className="text">
@@ -168,13 +189,13 @@ const BlockFormatDropdown = () => {
         </span>
         {blockType === 'number' && <span className="active" />}
       </button>
-      <button className="item" onClick={formatCheckList} type="button">
-        <span className="icon check-list" />
-        <span className="text">
-          {t('toolbar:blockFormatDropdown.CheckList')}
-        </span>
-        {blockType === 'check' && <span className="active" />}
-      </button>
+      {/*<button className="item" onClick={formatCheckList} type="button">*/}
+      {/*  <span className="icon check-list" />*/}
+      {/*  <span className="text">*/}
+      {/*    {t('toolbar:blockFormatDropdown.CheckList')}*/}
+      {/*  </span>*/}
+      {/*  {blockType === 'check' && <span className="active" />}*/}
+      {/*</button>*/}
       <button className="item" onClick={formatQuote} type="button">
         <span className="icon quote" />
         <span className="text">
