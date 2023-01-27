@@ -7,6 +7,7 @@ import CodeLanguageDropdown from './CodeLanguageDropdown';
 import FloatingLinkEditor from './FloatingLinkEditor';
 import FontFamilyDropdown from './FontFamilyDropdown';
 import FontSizeDropdown from './FontSizeDropdown';
+import LineHeightDropdown from './LineHeightDropdown';
 import InsertDropdown from './InsertDropdown';
 import InsertLinkButton from './InsertLinkButton';
 import ItalicButton from './ItalicButton';
@@ -26,6 +27,7 @@ export {
   FloatingLinkEditor,
   FontFamilyDropdown,
   FontSizeDropdown,
+  LineHeightDropdown,
   InsertDropdown,
   InsertLinkButton,
   ItalicButton,
