@@ -1002,8 +1002,7 @@ select.font-family {
 }
 
 .table-cell-action-button {
-  background-color: none;
-  display: flex;
+  background-color: transparent;
   justify-content: center;
   align-items: center;
   border: 0;
