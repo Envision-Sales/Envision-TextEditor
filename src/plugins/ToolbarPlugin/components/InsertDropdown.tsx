@@ -414,6 +414,21 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
             <span className="text">Image</span>
           </button>
         )}
+        {enablePageBreak && (
+            <button
+                onClick={() => {
+                  activeEditor.dispatchCommand(
+                      INSERT_PAGE_BREAK_COMMAND,
+                      undefined
+                  );
+                }}
+                className="item"
+                type="button"
+            >
+              <i className="icon page-break" />
+              <span className="text">Page Break</span>
+            </button>
+        )}
         {enableTable && (
           <div>
             <button
@@ -432,21 +447,6 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
               <span className="text">Table</span>
             </button>
           </div>
-        )}
-        {enablePageBreak && (
-          <button
-              onClick={() => {
-                activeEditor.dispatchCommand(
-                    INSERT_PAGE_BREAK_COMMAND,
-                    undefined
-                );
-              }}
-              className="item"
-              type="button"
-          >
-            <i className="icon page-break" />
-            <span className="text">Page Break</span>
-          </button>
         )}
         {enablePoll && (
           <button
