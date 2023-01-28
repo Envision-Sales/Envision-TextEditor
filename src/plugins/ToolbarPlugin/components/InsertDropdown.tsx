@@ -23,6 +23,7 @@ import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import TableCellActionMenuPlugin from '../../TableActionMenuPlugin';
 import HorizontalRulePlugin from '../../HorizontalRulePlugin';
 import EditorContext from '../../../context/EditorContext';
+import PageBreakPlugin, { INSERT_PAGE_BREAK_COMMAND } from "../../PageBreakPlugin";
 
 // Taken from https://stackoverflow.com/a/9102270
 const YOUTUBE_ID_PARSER =
@@ -337,6 +338,7 @@ export interface IInsertDropdownProps {
   enableImage?: boolean;
   enableEquations?: boolean;
   enableHorizontalRule?: boolean;
+  enablePageBreak?: boolean;
   enableStickyNote?: boolean;
   imageMode?: null | 'url' | 'file'
 }
@@ -349,6 +351,7 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
   enablePoll = false,
   enableEquations = false,
   enableHorizontalRule = false,
+  enablePageBreak = false,
   enableStickyNote = false,
   imageMode = null
 }: IInsertDropdownProps) => {
@@ -370,6 +373,7 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
       {enableImage && <ImagesPlugin />}
       {enableEquations && <EquationsPlugin />}
       {enableHorizontalRule && <HorizontalRulePlugin />}
+      {enablePageBreak && <PageBreakPlugin />}
 
       <DropDown
         buttonClassName="toolbar-item spaced"
@@ -428,6 +432,21 @@ const InsertDropdown: React.FC<IInsertDropdownProps> = ({
               <span className="text">Table</span>
             </button>
           </div>
+        )}
+        {enablePageBreak && (
+          <button
+              onClick={() => {
+                activeEditor.dispatchCommand(
+                    INSERT_PAGE_BREAK_COMMAND,
+                    undefined
+                );
+              }}
+              className="item"
+              type="button"
+          >
+            <i className="icon page-break" />
+            <span className="text">Page Break</span>
+          </button>
         )}
         {enablePoll && (
           <button

@@ -29,6 +29,7 @@ import { StickyNode } from './StickyNode';
 import { TweetNode } from './TweetNode';
 import { TypeaheadNode } from './TypeaheadNode';
 import { YouTubeNode } from './YouTubeNode';
+import { PageBreakNode } from "./PageBreakNode";
 
 const PlaygroundNodes: Array<Class<LexicalNode>> = [
   HeadingNode,
@@ -56,6 +57,7 @@ const PlaygroundNodes: Array<Class<LexicalNode>> = [
   TweetNode,
   YouTubeNode,
   MarkNode,
+  PageBreakNode
 ];
 
 export default PlaygroundNodes;
