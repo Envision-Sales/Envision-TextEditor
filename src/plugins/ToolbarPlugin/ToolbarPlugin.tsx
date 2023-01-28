@@ -38,6 +38,7 @@ import RedoButton from './components/RedoButton';
 import CodeLanguageDropdown from './components/CodeLanguageDropdown';
 import BlockFormatDropdown from './components/BlockFormatDropdown';
 import Divider from '../../ui/Divider';
+import { INSERT_PAGE_BREAK_COMMAND } from "../PageBreakPlugin";
 
 const supportedBlockTypes = new Set([
   'paragraph',
@@ -226,7 +227,14 @@ const ToolbarPlugin = ({
           return false;
         },
         COMMAND_PRIORITY_CRITICAL
-      )
+      ),
+      activeEditor.registerCommand(
+          INSERT_PAGE_BREAK_COMMAND,
+          payload => {
+            return false;
+          },
+          COMMAND_PRIORITY_CRITICAL
+      ),
     );
   }, [activeEditor, updateToolbar]);
 
