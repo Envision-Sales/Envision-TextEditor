@@ -247,14 +247,14 @@ function FloatingCharacterStylesEditor({
       >
         <i className="format link" />
       </button>
-      <button
-        onClick={insertComment}
-        className={'popup-item spaced ' + (isLink ? 'active' : '')}
-        aria-label={t('toolbar:characterStylesPopupPlugin.Add_comment')}
-        type="button"
-      >
-        <i className="format add-comment" />
-      </button>
+      {/*<button*/}
+      {/*  onClick={insertComment}*/}
+      {/*  className={'popup-item spaced ' + (isLink ? 'active' : '')}*/}
+      {/*  aria-label={t('toolbar:characterStylesPopupPlugin.Add_comment')}*/}
+      {/*  type="button"*/}
+      {/*>*/}
+      {/*  <i className="format add-comment" />*/}
+      {/*</button>*/}
     </div>
   );
 }
