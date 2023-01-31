@@ -167,8 +167,11 @@ export default function DropDown({
 
     if (showDropDown && button !== null && dropDown !== null) {
       const {top, left} = button.getBoundingClientRect();
-      dropDown.style.top = `${Math.min(top + window.scrollY + 40, window.innerHeight + window.scrollY - dropDown.offsetHeight - 20)}px`;
-      dropDown.style.left = `${Math.min(left + window.scrollX, window.innerWidth + window.scrollX - dropDown.offsetWidth - 20)}px`;
+      dropDown.style.top = `${top + 40}px`;
+      dropDown.style.left = `${Math.min(
+          left,
+          window.innerWidth - dropDown.offsetWidth - 20,
+      )}px`;
     }
   }, [dropDownRef, buttonRef, showDropDown]);
 
