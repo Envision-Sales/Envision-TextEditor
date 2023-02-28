@@ -23,10 +23,12 @@ import {$applyNodeReplacement, createEditor, DecoratorNode} from 'lexical';
 import * as React from 'react';
 import {Suspense} from 'react';
 
-const ImageComponent = React.lazy(
-    // @ts-ignore
-    () => import('./ImageComponent'),
-);
+import ImageComponent from './ImageComponent'
+
+// const ImageComponent = React.lazy(
+//     // @ts-ignore
+//     () => import('./ImageComponent'),
+// );
 
 export interface ImagePayload {
   altText: string;
