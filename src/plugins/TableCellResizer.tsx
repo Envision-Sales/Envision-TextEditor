@@ -88,6 +88,29 @@ function TableCellResizer({editor}: {editor: LexicalEditor}): JSX.Element {
     tableRectRef.current = null;
   }, []);
 
+  function getParentElement(node: Node): HTMLElement | null {
+    const parentElement =
+        (node as HTMLSlotElement).assignedSlot || node.parentElement;
+    return parentElement !== null && parentElement.nodeType === 11
+        ? ((parentElement as unknown as ShadowRoot).host as HTMLElement)
+        : parentElement;
+  }
+
+  function getNearestEditorFromDOMNode(
+      node: Node | null,
+  ): LexicalEditor | null {
+    let currentNode = node;
+    while (currentNode != null) {
+      // @ts-expect-error: internal field
+      const editor: LexicalEditor = currentNode.__lexicalEditor;
+      if (editor != null) {
+        return editor;
+      }
+      currentNode = getParentElement(currentNode);
+    }
+    return null;
+  }
+
   useEffect(() => {
     const onMouseMove = (event: MouseEvent) => {
       setTimeout(() => {
@@ -108,14 +131,13 @@ function TableCellResizer({editor}: {editor: LexicalEditor}): JSX.Element {
         if (targetRef.current !== target) {
           targetRef.current = target as HTMLElement;
           const cell = getCellFromTarget(target as HTMLElement);
+          const cellEditor = getNearestEditorFromDOMNode(cell.elem)
 
-          if (cell && activeCell !== cell) {
+          if (cell && activeCell !== cell && cellEditor === editor) {
             editor.update(() => {
               const tableCellNode = $getNearestNodeFromDOMNode(cell.elem);
               if (!tableCellNode) {
-                resetState();
-                return;
-                // throw new Error('TableCellResizer: Table cell node not found.');
+                throw new Error('TableCellResizer: Table cell node not found.');
               }
 
               const tableNode =
@@ -130,7 +152,7 @@ function TableCellResizer({editor}: {editor: LexicalEditor}): JSX.Element {
               tableRectRef.current = tableElement.getBoundingClientRect();
               updateActiveCell(cell);
             });
-          } else if (cell == null) {
+          } else if (cell == null || cellEditor !== editor) {
             resetState();
           }
         }
