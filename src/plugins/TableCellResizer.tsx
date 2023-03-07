@@ -38,6 +38,7 @@ import {
   useState,
 } from 'react';
 import {createPortal} from 'react-dom';
+import {getNearestEditorFromDOMNode} from "lexical/LexicalUtils";
 
 type MousePosition = {
   x: number;
@@ -108,8 +109,9 @@ function TableCellResizer({editor}: {editor: LexicalEditor}): JSX.Element {
         if (targetRef.current !== target) {
           targetRef.current = target as HTMLElement;
           const cell = getCellFromTarget(target as HTMLElement);
+          const cellEditor = getNearestEditorFromDOMNode(cell.elem);
 
-          if (cell && activeCell !== cell) {
+          if (cell && activeCell !== cell && cellEditor === editor) {
             editor.update(() => {
               const tableCellNode = $getNearestNodeFromDOMNode(cell.elem);
               if (!tableCellNode) {
