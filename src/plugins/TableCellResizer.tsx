@@ -131,9 +131,9 @@ function TableCellResizer({editor}: {editor: LexicalEditor}): JSX.Element {
         if (targetRef.current !== target) {
           targetRef.current = target as HTMLElement;
           const cell = getCellFromTarget(target as HTMLElement);
-          const cellEditor = getNearestEditorFromDOMNode(cell.elem)
 
-          if (cell && activeCell !== cell && cellEditor === editor) {
+          if (cell && activeCell !== cell) {
+            const cellEditor = getNearestEditorFromDOMNode(cell.elem)
             if (cellEditor === editor) {
               editor.update(() => {
                 const tableCellNode = $getNearestNodeFromDOMNode(cell.elem);
