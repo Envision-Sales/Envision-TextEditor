@@ -47,9 +47,12 @@ const supportedBlockTypes = new Set([
   'h1',
   'h2',
   'h3',
+  'h4',
+  'h5',
+  'h6',
   'bullet',
   'number',
-  'check',
+  // 'check',
 ]);
 
 const CODE_LANGUAGE_MAP = {

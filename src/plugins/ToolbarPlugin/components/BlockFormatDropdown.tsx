@@ -6,11 +6,12 @@ import {
   REMOVE_LIST_COMMAND,
 } from '@lexical/list';
 import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
-import { $wrapNodes } from '@lexical/selection';
+import { $setBlocksType_experimental, $wrapNodes } from '@lexical/selection';
 import {
   $createParagraphNode,
   $getSelection,
   $isRangeSelection,
+  DEPRECATED_$isGridSelection,
   LexicalEditor,
 } from 'lexical';
 import React, { useContext } from 'react';
@@ -102,23 +103,26 @@ const BlockFormatDropdown = () => {
   const formatCode = () => {
     if (blockType !== 'code') {
       initialEditor.update(() => {
-        const selection = $getSelection();
+        let selection = $getSelection();
 
-        if ($isRangeSelection(selection)) {
+        if (
+            $isRangeSelection(selection) ||
+            DEPRECATED_$isGridSelection(selection)
+        ) {
           if (selection.isCollapsed()) {
-            $wrapNodes(selection, () => $createCodeNode());
+            $setBlocksType_experimental(selection, () => $createCodeNode());
           } else {
             const textContent = selection.getTextContent();
             const codeNode = $createCodeNode();
-            selection.removeText();
             selection.insertNodes([codeNode]);
-            selection.insertRawText(textContent);
+            selection = $getSelection();
+            if ($isRangeSelection(selection))
+              selection.insertRawText(textContent);
           }
         }
       });
     }
   };
-
   return (
     <DropDown
       buttonClassName="toolbar-item block-controls"
