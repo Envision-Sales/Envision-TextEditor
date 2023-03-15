@@ -118,7 +118,7 @@ export const i18n = () => {
         ns: ['toolbar', 'action'],
         resources,
         fallbackLng: 'en',
-        debug: true,
+        debug: false,
         interpolation: {
           escapeValue: false,
         },
