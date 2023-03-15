@@ -178,7 +178,7 @@ function FloatingLinkEditor({
               }}
             />
           </div>
-          <LinkPreview url={linkUrl} />
+          {/*<LinkPreview url={linkUrl} />*/}
         </>
       )}
     </div>
