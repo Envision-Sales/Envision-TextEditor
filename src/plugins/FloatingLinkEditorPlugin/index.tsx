@@ -105,9 +105,10 @@ function FloatingLinkEditor({
             setLinkUrl('');
         }
 
-        if (lastActiveElement !== activeElement) {
-            setEditMode(false);
-        }
+        console.log(lastActiveElement, activeElement)
+        // if (lastActiveElement !== activeElement) {
+        //     setEditMode(false);
+        // }
 
         setLastActiveElement(activeElement);
 
