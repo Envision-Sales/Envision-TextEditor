@@ -50,21 +50,34 @@ function FloatingLinkEditor({
     const [lastSelection, setLastSelection] = useState<
         RangeSelection | GridSelection | NodeSelection | null
     >(null);
-    const [lastActiveElement, setLastActiveElement] = useState(null)
+    const [lastNode, setLastNode] = useState(null)
 
     const updateLinkEditor = useCallback(() => {
         const selection = $getSelection();
+        let activeNode;
+
         if ($isRangeSelection(selection)) {
             const node = getSelectedNode(selection);
             const parent = node.getParent();
             if ($isLinkNode(parent)) {
                 setLinkUrl(parent.getURL());
+                activeNode = parent;
+                setLastNode(parent);
             } else if ($isLinkNode(node)) {
                 setLinkUrl(node.getURL());
+                activeNode = node;
+                setLastNode(node);
             } else {
                 setLinkUrl('');
             }
         }
+
+        console.log(activeNode, lastNode);
+        console.log(activeNode === lastNode);
+
+        setLastNode(activeNode);
+
+
         const editorElem = editorRef.current;
         const nativeSelection = window.getSelection();
         const activeElement = document.activeElement;
@@ -105,15 +118,8 @@ function FloatingLinkEditor({
             setLinkUrl('');
         }
 
-        console.log(lastActiveElement, activeElement)
-        // if (lastActiveElement !== activeElement) {
-        //     setEditMode(false);
-        // }
-
-        setLastActiveElement(activeElement);
-
         return true;
-    }, [anchorElem, editor, lastActiveElement]);
+    }, [anchorElem, editor, lastNode]);
 
     useEffect(() => {
         const scrollerElem = anchorElem.parentElement;
