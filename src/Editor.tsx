@@ -38,6 +38,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import EditorContext from './context/EditorContext';
 import { LexicalEditor } from 'lexical';
 import i18next from 'i18next';
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
 
 interface IEditorProps {
   children?: ReactNode;
@@ -66,6 +67,14 @@ const Editor = ({
 }: IEditorProps) => {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+      useState<HTMLDivElement | null>(null);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
   const editorStateRef = useRef(null);
   const { historyState } = useSharedHistoryContext();
@@ -96,7 +105,13 @@ const Editor = ({
 
         <>
           <RichTextPlugin
-            contentEditable={<ContentEditable />}
+            contentEditable={
+              <div className="editor-scroller">
+                <div className="editor" ref={onRef}>
+                  <ContentEditable />
+                </div>
+              </div>
+            }
             placeholder={placeholderComponent}
             ErrorBoundary={LexicalErrorBoundary}
           />
@@ -115,6 +130,10 @@ const Editor = ({
           <ClickableLinkPlugin />
           <CharacterStylesPopupPlugin />
           <TabFocusPlugin />
+          {floatingAnchorElem && isEditable && (
+            <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
+          )}
+
         </>
 
         <HistoryPlugin externalHistoryState={historyState} />
