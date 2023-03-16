@@ -113,7 +113,7 @@ function FloatingLinkEditor({
         setLastActiveElement(activeElement);
 
         return true;
-    }, [anchorElem, editor]);
+    }, [anchorElem, editor, lastActiveElement]);
 
     useEffect(() => {
         const scrollerElem = anchorElem.parentElement;
