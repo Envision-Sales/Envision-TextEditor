@@ -22,11 +22,11 @@ const InsertLinkButton = () => {
       >
         <i className="format link" />
       </button>
-      {isLink &&
-        createPortal(
-          <FloatingLinkEditor editor={activeEditor} />,
-          document.body
-        )}
+      {/*{isLink &&*/}
+      {/*  createPortal(*/}
+      {/*    <FloatingLinkEditor editor={activeEditor} />,*/}
+      {/*    document.body*/}
+      {/*  )}*/}
     </>
   );
 };
