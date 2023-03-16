@@ -50,9 +50,10 @@ function FloatingLinkEditor({
     const [lastSelection, setLastSelection] = useState<
         RangeSelection | GridSelection | NodeSelection | null
     >(null);
-    const [lastActiveElement, setLastActiveElement] = useState(null)
+    const [lastActiveElement, setLastActiveElement] = useState<Element | null>(null)
 
     const updateLinkEditor = useCallback(() => {
+        console.log(lastActiveElement)
         const selection = $getSelection();
         if ($isRangeSelection(selection)) {
             const node = getSelectedNode(selection);
@@ -110,6 +111,7 @@ function FloatingLinkEditor({
         }
 
         setLastActiveElement(activeElement);
+        console.log(lastActiveElement)
 
         return true;
     }, [anchorElem, editor]);
