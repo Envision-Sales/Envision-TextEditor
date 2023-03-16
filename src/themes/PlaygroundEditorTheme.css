@@ -178,6 +178,7 @@
   min-width: 75px;
   vertical-align: top;
   text-align: start;
+  overflow: hidden;
 }
 .PlaygroundEditorTheme__tableCellHeader {
   background-color: #f2f3f5;
