@@ -71,7 +71,7 @@ function FloatingLinkEditor({
             }
         }
 
-        if (activeNode === lastNode) {
+        if (activeNode !== lastNode) {
             setEditMode(false);
         }
 
