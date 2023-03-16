@@ -62,18 +62,18 @@ function FloatingLinkEditor({
             if ($isLinkNode(parent)) {
                 setLinkUrl(parent.getURL());
                 activeNode = parent;
-                setLastNode(parent);
             } else if ($isLinkNode(node)) {
                 setLinkUrl(node.getURL());
                 activeNode = node;
-                setLastNode(node);
             } else {
                 setLinkUrl('');
+                activeNode = null;
             }
         }
 
-        console.log(activeNode, lastNode);
-        console.log(activeNode === lastNode);
+        if (activeNode === lastNode) {
+            setEditMode(false);
+        }
 
         setLastNode(activeNode);
 
